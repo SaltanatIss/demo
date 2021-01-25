@@ -86,6 +86,7 @@ components:
         date:
           type: string
           format: date
+          example: 2025-05-05
         photo:
           type: string
           format: binary
