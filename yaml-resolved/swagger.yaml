@@ -1,0 +1,132 @@
+openapi: 3.0.1
+info:
+  title: Company API
+  description: Api to manage companies
+  version: 1.0-oas3
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /company:
+    post:
+      tags:
+      - company-controller
+      operationId: postCompany
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanyForm'
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CompanyDto'
+  /company-list:
+    post:
+      tags:
+      - company-controller
+      operationId: postCompanyList
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanyListForm'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CompanyDto'
+  /company/{id}:
+    get:
+      tags:
+      - company-controller
+      operationId: postCompany_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CompanyDto'
+components:
+  schemas:
+    CompanyForm:
+      required:
+      - date
+      - name
+      - phone
+      - photo
+      type: object
+      properties:
+        name:
+          type: string
+        country:
+          type: string
+        city:
+          type: string
+        phone:
+          pattern: ^00(?:[0-9] ?){2,20}[0-9]$
+          type: string
+        date:
+          type: string
+          format: date
+          example: 2025-05-05
+        photo:
+          type: string
+          format: binary
+    CompanyDto:
+      required:
+      - name
+      - timezone
+      type: object
+      properties:
+        name:
+          type: string
+        country:
+          type: string
+        city:
+          type: string
+        timezone:
+          $ref: '#/components/schemas/CompanyDto_timezone'
+      additionalProperties:
+        $ref: '#/components/schemas/CompanyForm'
+    CompanyListForm:
+      required:
+      - list
+      type: object
+      properties:
+        list:
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/CompanyForm'
+    CompanyDto_timezone:
+      type: object
+      properties:
+        displayName:
+          type: string
+        id:
+          type: string
+        dstsavings:
+          type: integer
+          format: int32
+        rawOffset:
+          type: integer
+          format: int32
