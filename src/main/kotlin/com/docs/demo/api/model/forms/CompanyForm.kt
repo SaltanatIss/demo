@@ -7,7 +7,6 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 
 data class CompanyForm(@NotNull val name: String,
-                       val surname: String,
                        val country: String?,
                        val city: String?,
                        @Pattern(regexp = "^00(?:[0-9] ?){2,20}[0-9]$") val phone: String,
